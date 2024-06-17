@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire d'avis</title>
+</head>
+<body>
+    <div style="text-align: center; padding: 20px; margin: 20px 0; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 10px;">
+        <h1 style="font-size: 24px; margin-bottom: 10px;">Laissez un avis</h1>
+        <form id="avisForm" style="display: flex; flex-direction: column; align-items: center;" method="POST" action="#">
+            <input style="width: 80%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;" required placeholder="Votre nom" name="Nom" type="text">
+            <textarea style="width: 80%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;" required rows="4" placeholder="Votre commentaire" name="Commentaire"></textarea>
+            <button style="padding: 10px 20px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;" type="submit">Soumettre l'avis</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var email = urlParams.get('email');
+            
+            document.getElementById('avisForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                var nom = this.Nom.value;
+                var commentaire = this.Commentaire.value;
+
+                // Fonction pour envoyer un email avec EmailJS
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                    from_name: nom,
+                    message: commentaire,
+                    to_email: email
+                }).then(function(response) {
+                    alert('Votre avis a été soumis avec succès !');
+                }, function(error) {
+                    alert('Une erreur s\'est produite. Veuillez réessayer.');
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init('YOUR_USER_ID');
+        })();
+    </script>
+</body>
+</html>
